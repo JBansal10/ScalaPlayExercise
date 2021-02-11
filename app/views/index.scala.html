@@ -1,12 +1,5 @@
-@*
-*
-* This template takes a single argument, a String containing a
-* message to display.
-*@
-@(items: Seq[Item])(implicit messages: Messages)
-import Persistence.Domain.Item
-import Persistence.Domain.Item
-
+@import Persistence.Domain.Item
+@(items: Seq[Item])(message: String)
 
 @*
 * Call the `main` template with two arguments. The first
@@ -19,13 +12,14 @@ import Persistence.Domain.Item
     * Get an `Html` object by calling the built-in Play welcome
     * template and passing a `String` message.
     *@
-    <ul>
+
+    <h1><a href="/updater">UPDATER</a> </h1>
+    <div class="film-flex-container">
         @for(item <- items) {
             <li>@item</li>
+            <li><a href="/work/@item.id">Delete</a></li>
         }
-    </ul>
-
-    <h1>
+    </div>
 
 
-}@import Persistence.Domain.Item
+}

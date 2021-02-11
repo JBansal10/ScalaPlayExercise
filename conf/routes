@@ -15,5 +15,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #GET     /workplis                   controllers.HomeController.list
 
-GET     /work/:id<[0-9]+>           controllers.HomeController.delete(id: Int)
-      
+GET     /work/$id<[0-9]+>           controllers.HomeController.delete(id: Int)
+
+GET     /update                     controllers.HomeController.updateList

@@ -1,13 +1,19 @@
 @import Persistence.Domain.{Item, Items}
+@import controllers.routes
 @(form: Form[Item])(implicit messages: Messages)
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Whatever, work List please</title>
-    </head>
-    <body>
 
-        <h1>@items</h1>
-</body>
-</html>
+@main("Item Details") {
+    <h1>UPDATE THE ITEM</h1>
+    @helper.form(routes.HomeController.updateList()) {
+        <div class="form-floating">
+            @helper.inputText(form("id"), Symbol("label") -> "id", Symbol("showConstraints") -> false)
+            @helper.inputText(form("iName"), Symbol("label") -> "iName", Symbol("showConstraints") -> false)
+            @helper.inputText(form("desc"), Symbol("label") -> "desc", Symbol("showConstraints") -> false)
+            @helper.inputText(form("price"), Symbol("label") -> "price", Symbol("showConstraints") -> false)
+            @helper.inputText(form("maker"), Symbol("label") -> "maker", Symbol("showConstraints") -> false)
+            @helper.inputText(form("warranty"), Symbol("label") -> "warranty", Symbol("showConstraints") -> false)
+            @helper.inputText(form("seller"), Symbol("label") -> "seller", Symbol("showConstraints") -> false)
+            <button class="btn btn-primary" type="submit">Submit!</button>
+        </div>
+    }
+}

@@ -3,6 +3,7 @@ package controllers
 import Persistence.DAO.ItemDAO
 import Persistence.Domain.{Item, ItemForm}
 import play.api.data.Form
+import play.api.i18n.I18nSupport
 import play.api.mvc.Results.{BadRequest, Redirect}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,7 +19,7 @@ import scala.util.{Failure, Success}
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with I18nSupport{
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -26,22 +27,28 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-//  def index = Action {
-//    Ok(views.html.index())
-//  }
 
-//  def index = Action {
-//  Ok(views.html.index(items: Seq[Item], "Potato work please"))
-//}
-//  val formUpdater = Item.createItemForm.bindFromRequest
-//  formValidationResult.fold({ formWithErrors =>
-//    BadRequest(views.html.list(Item.items, formWithErrors))
-//  })
+//  val updatePage = Action.async { implicit request => ItemForm.updateItemForm map(idunnoYeah => Ok(views.html.list(idunnoYeah)("Potato work please")))
 
-//  val deleteList = Action.async { implicit request =>
-//    id
-//    ItemDAO.delete()
-//  }
+  def updateList() = Action { implicit request =>
+    ItemForm.updateItemForm.bindFromRequest.fold ({ formsWithError =>
+      BadRequest(views.html.list(formsWithError))
+    }, {
+      updater => updateFunc(updater)
+        Redirect("/")
+    })
+  }
+
+  def updateFunc(item: Item): Unit = {
+    ItemDAO.update(item).onComplete {
+      case Success(value) =>
+        print(value)
+      case Failure(error) =>
+        error.printStackTrace()
+    }
+
+  }
+
 
 val index = Action.async { implicit request => ItemDAO.readAll() map(idunnoYeah => Ok(views.html.index(idunnoYeah)("Potato work please")))
 
